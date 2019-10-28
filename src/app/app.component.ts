@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'pert';
+  n1 = 0;
+  n2 = 0;
+  suma1 = 0;
+  suma() {
+    this.suma1 = this.n1 + this.n2;
+  }
+
 }
