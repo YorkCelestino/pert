@@ -2,47 +2,77 @@
 <!--button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#RegisterData" (click)="toggleModal()">
         Launch
       </button-->
-<button type="button" name="" id="" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#RegisterData" (click)="toggleModal()">Registrar Datos</button>
+<button type="button" name="" id="" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#RegisterData" (click)="toggleModalRegister()">Registrar Datos</button>
 <br>
 <br>
 <br>
 <br>
+<h5>Gastos Administrativos= {{coinType}} {{administrativeExpence}}/{{timeType}}</h5>
+
 <div class="mt-5">
         <!--Tabla de contenido-->
         <table class="table">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">ACTIVIDAD</th>
-                <th scope="col">PRERREQ</th>
-                <th scope="col">
-                    DURACION 
-                    -MES-
+                <th scope="row">ACTIVIDAD</th>
+                <th scope="row">PRERREQ</th>
+                <th scope="row">DURACION-{{timeType}}-
+                        <tr>
+                          <th>A</th>
+                          <th>M</th>
+                          <th>B</th>
+                        </tr>
                 </th>
-                <th scope="col">COSTO NORMAL RD$/-MES-</th>
-                <th scope="col">DURACION RED. -MES-</th>
-                <th scope="col">REDUCCION RD$/ -MES-</th>
-                <th scope="col">Te(N) -MES-</th>
-                <th scope="col">Te(R) -MES-</th>
-                <th scope="col">VTe(N) -MES-</th>
-                <th scope="col">VTe(R) -MES-</th>
-                <th scope="col">IMPORTE</th>
+                <th scope="row">COSTO NORMAL {{coinType}}/-{{timeType}}-</th>
+                <th scope="row">
+                  DURACION RED. -{{timeType}}-
+                  <tr>
+                      <th>A</th>
+                      <th>M</th>
+                      <th>B</th>
+                  </tr>                </th>
+                <th scope="row">REDUCCION {{coinType}}/ -{{timeType}}-</th>
+                <th scope="row">Te(N) -{{timeType}}-</th>
+                <th scope="row">Te(R) -{{timeType}}-</th>
+                <th scope="row">VTe(N) -{{timeType}}-</th>
+                <th scope="row">VTe(R) -{{timeType}}-</th>
+                <th scope="row">IMPORTE</th>
               </tr>
             </thead>
             <tbody>
+
+               
               <tr>
-                  <!--th scope="row">1</th-->
+                  <th scope="row">Mark</th>
+                  
+                
+                <td>Mark</td>
+                <td>
+                  <tr>
+                    <td>5</td>
+                    <td>4</td>
+                    <td>10</td>
+                  </tr>
+                </td>
+               
+                <td>Mark</td>
+                <td>
+                    <tr>
+                        <td>4</td>
+                        <td>3</td>
+                        <td>9</td>
+                      </tr>
+                </td>
                 <td>Mark</td>
                 <td>Mark</td>
                 <td>Mark</td>
                 <td>Mark</td>
                 <td>Mark</td>
                 <td>Mark</td>
-                <td>Mark</td>
-                <td>Mark</td>
-                <td>Mark</td>
-                <td>Mark</td>
-                <td>Mark</td>
+                
               </tr>
+
+              
             </tbody>
           </table>
           
@@ -51,22 +81,22 @@
     
 
 
-<!-- Modal -->
+<!-- Modal Registro de datos -->
 <div class="modal fade" id="RegisterData" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Registro</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title">Registro Actividad {{pertDb.length + 1}}</h5>
+                    <!--button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>
+                    </button-->
             </div>
             <div class="modal-body">
-                <form>
+                <form #f="ngForm" (ngSubmit)="submit(f)">
                   <div class="form-row">
                     <div class="col">
                       <label for="activity">Actividad</label>
-                      <input type="text" class="form-control" placeholder="Actividad" id="activity">
+                      <input type="text" class="form-control" placeholder="Actividad" id="activity" name="name" [(ngModel)]="activitys.name" required>
                     </div>
                     <div class=" col form-group">
                         <label for="listActivity">Prerrequisito</label>
@@ -77,23 +107,30 @@
                           <option>4</option>
                           <option>5</option>
                         </select>
+                        
                     </div>
+                    <div class="col">
+                      <label for="">R. pre.</label>
+                        <button type="button" class="btn btn-primary btn-circle"><fa-icon [icon]="faPlusCircle"></fa-icon>
+                        </button>
+                    </div>
+                   
                   </div>
                   <div class="form-row mt-3">
 
                     <div class="col">
                       <label for="DuracionNormalA">Duracion Normal (A)</label>
-                      <input type="number" class="form-control" placeholder="Duracion Normal (A)">
+                      <input type="number" class="form-control" placeholder="Duracion Normal (A)" name="nA" [(ngModel)]="activitys.nA" required>
                     </div>
 
                     <div class="col">
                       <label for="DuracionNormalM">Duracion Normal (M)</label>
-                      <input type="number" class="form-control" placeholder="Duracion Normal (M)">
+                      <input type="number" class="form-control" placeholder="Duracion Normal (M)" name="nM" [(ngModel)]="activitys.nM" required>
                     </div>
 
                     <div class="col">
                       <label for="DuracionNormalB">Duracion Normal (B)</label>
-                      <input type="number" class="form-control" placeholder="Duracion Normal (B)">
+                      <input type="number" class="form-control" placeholder="Duracion Normal (B)" name="nB" [(ngModel)]="activitys.nB" required>
                     </div>
                   </div>
 
@@ -101,7 +138,7 @@
 
                     <div class="col">
                       <label for="CostoNormal">Costo Normal</label>
-                      <input type="number" class="form-control" placeholder="Costo Normal">
+                      <input type="number" class="form-control" placeholder="Costo Normal" name="nA" [(ngModel)]="activitys.nCost" required>
                     </div>
                   </div>
                   
@@ -109,17 +146,17 @@
 
                     <div class="col">
                       <label for="DuracionReducidaA">Duracion Reducida (A)</label>
-                      <input type="number" class="form-control" placeholder="Duracion Reducida (A)">
+                      <input type="number" class="form-control" placeholder="Duracion Reducida (A)" name="rA" [(ngModel)]="activitys.rA" required>
                     </div>
 
                     <div class="col">
                       <label for="Duracion ReducidaM">Duracion Reducida (M)</label>
-                      <input type="number" class="form-control" placeholder="Duracion Reducida (M)">
+                      <input type="number" class="form-control" placeholder="Duracion Reducida (M)" name="rM" [(ngModel)]="activitys.rM" required>
                     </div>
 
                     <div class="col">
                       <label for="Duracion Reducida (B)">Duracion Reducida (B)</label>
-                      <input type="number" class="form-control" placeholder="Duracion Reducida (B)">
+                      <input type="number" class="form-control" placeholder="Duracion Reducida (B)" name="rB" [(ngModel)]="activitys.rB" required>
                     </div>
 
                  </div>
@@ -127,20 +164,70 @@
                  <div class="form-row mt-3">
                    <div class="col">
                       <label for="CostoReducido">Costo Reducido</label>
-                      <input type="number" class="form-control" placeholder="Costo Reducido">
+                      <input type="number" class="form-control" placeholder="Costo Reducido" name="rCost" [(ngModel)]="activitys.rCost" required>
                     </div>
                   </div>
-
+ 
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <button  type="submit" class="btn btn-primary" [disabled]="f.invalid">Guardar</button>
+                  </div>
               
                 </form>
   
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Aceptar</button>
-            </div>
+            
         </div>
     </div>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#gAdmin">
+  Launch
+</button>
+
+<!-- Modal registro gastos administrativos, tipo de moneda,  tiempo =>(meces, años, dias)<==-->
+<div class="modal fade" id="gAdmin" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Registro G. administrtivos, tipo de moneda, tiempo</h5>
+          <!--button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button-->
+      </div>
+      <div class="modal-body">
+        <form >
+          <div class="form-group">
+            <label for="">Costo Gastos administrativos <span>*</span></label>
+            <input type="text" class="form-control" name="administrativeExpence"  [(ngModel)]="administrativeExpence" id="" aria-describedby="helpId" placeholder="Gastos administrativos" required>
+          </div>
+
+          <div class="form-group">
+            <label for="coinType">Tipo de moneda</label>
+            <select class="form-control" name="coinType" id="coinType" [(ngModel)]="coinType" >
+              <option value='RD$'>RD$</option>
+              <option value='US$'>US$</option>
+              <option value='€'>€</option> 
+            </select>
+          </div>
+         
+        <div class="form-group">
+          <label for="timeType">Tiempo de actividad</label>
+          <select class="form-control" name="timeType" id="timeType" [(ngModel)]="timeType">
+            <option value='Dias'>Dias</option>
+            <option value='Meses'>Meses</option>
+            <option value='Años'>Años</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal"  (click)="toggleModalRegister()">Guardar</button>
+          </div>
+        </form>
+      </div>
+     
+    </div>
+  </div>
 </div>
 
 <button (click)="add()">alert</button>

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 declare var jQuery: any;
 declare var $: any;
 declare let alertify: any;
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import {IActivitys} from './activitys';
 
 @Component({
@@ -9,37 +10,82 @@ import {IActivitys} from './activitys';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent  implements OnInit {
+  faPlusCircle = faPlusCircle;
 
+  public administrativeExpence: number;
+  public coinType = 'RD$';
+  public timeType =  'Dias';
 
 // onbjeto para las actividades
   activitys =  {
     name: '',
     prerequisites: [],
-    nA: 0,
-    nM: 0,
-    nB: 0,
-    nCost: 0,
-    rA: 0,
-    rM: 0,
-    rB: 0,
-    rCost: 0,
-    tN: 0,
-    tR: 0,
-    vTN: 0,
-    vTR: 0,
-    amount: 0
+    nA: null,
+    nM: null,
+    nB: null,
+    nCost: null,
+    rA: null,
+    rM: null,
+    rB: null,
+    rCost: null,
+    tN: null,
+    tR: null,
+    vTN: null,
+    vTR: null,
+    amount: null
   };
+
+  activityArr = [];
+
 // arreglo para almacenar todos los objetos creados
   pertDb = [];
 
 
   constructor( ) {
+
   }
 
-  toggleModal() { // <= evitar que se cierre e modal al dar click a los lados
-    $('#RegisterData').modal({backdrop: 'static', keyboard: false});
+  ngOnInit() {
+
+   // this.toggleModalRegister();
+    this.toggleModalGastAdmin();
   }
+
+  /**
+   * configuracion de la ventana modal
+   */
+  toggleModalRegister() {
+
+    $('#RegisterData').modal({ // <= evitar que se cierre e modal al dar click a los lados
+      backdrop: 'static', keyboard: false
+    });
+
+    /*$( document ).ready(() => {
+      $('#RegisterData').modal('toggle'); // <= el modal se mantendra actio cuando la pagina recargue
+    });*/
+  }
+
+  toggleModalGastAdmin() {
+    $('#gAdmin').modal({ // <= evitar que se cierre e modal al dar click a los lados
+      backdrop: 'static', keyboard: false
+    });
+    $(document).ready(() => {
+       $('#gAdmin').modal('toggle'); // <= el modal se mantendra actio cuando la pagina recargue
+    });
+  }
+
+  fillActivityArr() {
+    for (let i = 0; i < this.pertDb.length; i++) {
+      this.activityArr[i] = this.pertDb[i].name;
+    }
+  }
+  addPrerreq() {
+
+  }
+
+
+
 
   add2() { // prueva de alerta y recorrida del array pertBb
     alertify.success('hola');
@@ -55,6 +101,9 @@ export class AppComponent {
     console.log(this.pertDb);
 
   }
+  submit(f) {
+    console.log(f.value);
+  }
 
 }
 
@@ -62,7 +111,7 @@ export class AppComponent {
   /*this.activitys.push({
         name: this.n1,
         dependecy: ['hola', 'hola2'],
-        costo: 1000
+        costo: 1nullnullnull
       });*/
 
     // console.log(this.activitys[1].costo);
