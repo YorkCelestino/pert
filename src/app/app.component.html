@@ -1,9 +1,148 @@
-<h1>Teresa</h1>
+<!-- Button trigger modal -->
+<!--button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#RegisterData" (click)="toggleModal()">
+        Launch
+      </button-->
+<button type="button" name="" id="" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#RegisterData" (click)="toggleModal()">Registrar Datos</button>
+<br>
+<br>
+<br>
+<br>
+<div class="mt-5">
+        <!--Tabla de contenido-->
+        <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">ACTIVIDAD</th>
+                <th scope="col">PRERREQ</th>
+                <th scope="col">
+                    DURACION 
+                    -MES-
+                </th>
+                <th scope="col">COSTO NORMAL RD$/-MES-</th>
+                <th scope="col">DURACION RED. -MES-</th>
+                <th scope="col">REDUCCION RD$/ -MES-</th>
+                <th scope="col">Te(N) -MES-</th>
+                <th scope="col">Te(R) -MES-</th>
+                <th scope="col">VTe(N) -MES-</th>
+                <th scope="col">VTe(R) -MES-</th>
+                <th scope="col">IMPORTE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                  <!--th scope="row">1</th-->
+                <td>Mark</td>
+                <td>Mark</td>
+                <td>Mark</td>
+                <td>Mark</td>
+                <td>Mark</td>
+                <td>Mark</td>
+                <td>Mark</td>
+                <td>Mark</td>
+                <td>Mark</td>
+                <td>Mark</td>
+                <td>Mark</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          
+     </div>
+    
 
-<h1>{{suma1}}</h1>
 
-<input type="number" [(ngModel)]="n1" #ctrl="ngModel" required>
-<input type="number" [(ngModel)]="n2" #ctrl1="ngModel" required>
-<button (click)="suma()">sumar</button>
-<router-outlet>
-</router-outlet>
+<!-- Modal -->
+<div class="modal fade" id="RegisterData" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Registro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                  <div class="form-row">
+                    <div class="col">
+                      <label for="activity">Actividad</label>
+                      <input type="text" class="form-control" placeholder="Actividad" id="activity">
+                    </div>
+                    <div class=" col form-group">
+                        <label for="listActivity">Prerrequisito</label>
+                        <select class="form-control" id="listActivity">
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="form-row mt-3">
+
+                    <div class="col">
+                      <label for="DuracionNormalA">Duracion Normal (A)</label>
+                      <input type="number" class="form-control" placeholder="Duracion Normal (A)">
+                    </div>
+
+                    <div class="col">
+                      <label for="DuracionNormalM">Duracion Normal (M)</label>
+                      <input type="number" class="form-control" placeholder="Duracion Normal (M)">
+                    </div>
+
+                    <div class="col">
+                      <label for="DuracionNormalB">Duracion Normal (B)</label>
+                      <input type="number" class="form-control" placeholder="Duracion Normal (B)">
+                    </div>
+                  </div>
+
+                  <div class="form-row mt-3">
+
+                    <div class="col">
+                      <label for="CostoNormal">Costo Normal</label>
+                      <input type="number" class="form-control" placeholder="Costo Normal">
+                    </div>
+                  </div>
+                  
+                  <div class="form-row mt-3">
+
+                    <div class="col">
+                      <label for="DuracionReducidaA">Duracion Reducida (A)</label>
+                      <input type="number" class="form-control" placeholder="Duracion Reducida (A)">
+                    </div>
+
+                    <div class="col">
+                      <label for="Duracion ReducidaM">Duracion Reducida (M)</label>
+                      <input type="number" class="form-control" placeholder="Duracion Reducida (M)">
+                    </div>
+
+                    <div class="col">
+                      <label for="Duracion Reducida (B)">Duracion Reducida (B)</label>
+                      <input type="number" class="form-control" placeholder="Duracion Reducida (B)">
+                    </div>
+
+                 </div>
+                 
+                 <div class="form-row mt-3">
+                   <div class="col">
+                      <label for="CostoReducido">Costo Reducido</label>
+                      <input type="number" class="form-control" placeholder="Costo Reducido">
+                    </div>
+                  </div>
+
+              
+                </form>
+  
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button (click)="add()">alert</button>
+
+<router-outlet></router-outlet>
