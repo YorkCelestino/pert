@@ -1,9 +1,10 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component,  OnInit, ɵConsole } from '@angular/core';
 declare var jQuery: any;
 declare var $: any;
 declare let alertify: any;
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import {IActivitys} from './activitys';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +12,16 @@ import {IActivitys} from './activitys';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent  implements OnInit {
-  faPlusCircle = faPlusCircle;
+
+
+  constructor( ) {
+  }
+  faPlusCircle = faPlusCircle; // <= icono boton agregar prerrequisito al objeto
 
   public administrativeExpence: number;
   public coinType = 'RD$';
   public timeType =  'Dias';
+  prerrequisito: any;
 
 // onbjeto para las actividades
   activitys =  {
@@ -36,20 +42,38 @@ export class AppComponent  implements OnInit {
     amount: null
   };
 
+
   activityArr = [];
 
 // arreglo para almacenar todos los objetos creados
   pertDb = [];
 
 
-  constructor( ) {
-
-  }
-
   ngOnInit() {
 
    // this.toggleModalRegister();
     this.toggleModalGastAdmin();
+   // this.setObject();
+  }
+
+  setObject() { // => funcion resetear el objeto y limpiar el formulario
+    this.activitys =  {
+      name: '',
+      prerequisites: [],
+      nA: null,
+      nM: null,
+      nB: null,
+      nCost: null,
+      rA: null,
+      rM: null,
+      rB: null,
+      rCost: null,
+      tN: null,
+      tR: null,
+      vTN: null,
+      vTR: null,
+      amount: null
+    };
   }
 
   /**
@@ -75,43 +99,58 @@ export class AppComponent  implements OnInit {
     });
   }
 
-  fillActivityArr() {
+  /*clearForm() {
+    $('#RegisterForm').trigger('reset');
+  }*/
+
+
+  fillActivityArr() { // => funcion pra llenar el arreglo de prerequisitos
+
     for (let i = 0; i < this.pertDb.length; i++) {
       this.activityArr[i] = this.pertDb[i].name;
     }
-  }
-  addPrerreq() {
+    // console.log(this.activityArr);
 
   }
 
+  addPrerreq() { // => añadiendo prerequisitos al pulsar el boton con el signo de +
+      this.activitys.prerequisites.push(this.prerrequisito);
+      if (this.activitys.prerequisites.length > 0) {
+        alertify.success('Prerrequisito "' + this.prerrequisito + '" agregago');
+      }
+      // console.log(this.activitys);
 
-
-
-  add2() { // prueva de alerta y recorrida del array pertBb
-    alertify.success('hola');
-    this.pertDb.forEach(element => {
-      console.log(element);
-    });
   }
 
-  add() {
 
-    this.pertDb.push(this.activitys); // prueba de que el array guarda los objertos con exito
+  addPertDb() {
+    this.pertDb.push(this.activitys); // Añadiendo objetos al array que sirve como base de datos
+    // console.log(this.pertDb);
+
+  }
+
+  calData() {
+    /**
+     * funcion para calcular Te(N),Te(R), VTe(N),VTe(R),importe
+     */
+  }
+
+  register(f) {
+    // this.activitys.name = f.value.name;
+    this.addPertDb();
+    this.fillActivityArr();
+    if (this.activitys.prerequisites.length === 0 ) {
+      this.activitys.prerequisites[0] = '-';
+    }
+    this.setObject();
+    $('#RegisterData').modal('hide');
 
     console.log(this.pertDb);
 
+
   }
-  submit(f) {
-    console.log(f.value);
-  }
+
 
 }
 
 
-  /*this.activitys.push({
-        name: this.n1,
-        dependecy: ['hola', 'hola2'],
-        costo: 1nullnullnull
-      });*/
-
-    // console.log(this.activitys[1].costo);
