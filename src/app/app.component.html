@@ -8,8 +8,10 @@
   <div class="container">
 
     <button type="button" name="" id="" class="btn btn-primary btn-lg mb-3 " data-toggle="modal" data-target="#RegisterData" (click)="toggleModalRegister()"> <fa-icon [icon]="faPlusCircle"></fa-icon>  Registrar Datos</button>
-
-    <h5 >Gastos Administrativos= {{coinType}} {{administrativeExpence}}/{{timeType}}</h5>
+    <div class="alert alert-primary" role="alert">
+      <h5 >Gastos Administrativos= {{coinType}} {{administrativeExpence}}/{{timeType}}</h5>
+    </div>
+    
 </div>
 
 <div class="mt-4 ml-2 mr-2">
@@ -20,11 +22,11 @@
                 <th scope="row">ACTIVIDAD</th>
                 <th scope="row">PRERREQ</th>
                 <th scope="row">DURACION-{{timeType}}-
-                        <tr>
-                          <th>A</th>
-                          <th>M</th>
-                          <th>B</th>
-                        </tr>
+                  <tr>
+                    <th>A</th>
+                    <th>M</th>
+                    <th>B</th>
+                  </tr>
                 </th>
                 <th scope="row">COSTO NORMAL {{coinType}}/-{{timeType}}-</th>
                 <th scope="row">
@@ -47,7 +49,6 @@
                
               <tr *ngFor="let activity of pertDb">
                 <th scope="row">{{activity.name}}</th>
-                  
                 <td>{{activity.prerequisites}}</td>
                 <td>
                   <tr>
@@ -88,13 +89,16 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Registro Actividad {{pertDb.length + 1}}</h5>
+                <h5 class="modal-title">Registrar Actividad # {{pertDb.length + 1}}</h5>
                     <!--button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button-->
             </div>
+            <div>
+                <h6  class="mt-1 ml-3">Este formulario contiene campos requeridos ( <span>*</span> )</h6>
+             </div>
             <div class="modal-body">
-                <form #f="ngForm" id="RegisterForm" (ngSubmit)="register(f)">
+                <form #f="ngForm" id="RegisterForm" (ngSubmit)="register()">
                   <div class="form-row">
                     <div class="col">
                       <label for="activity">Actividad <span>*</span></label>
@@ -190,11 +194,17 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Registro G. administrtivos, tipo de moneda, tiempo</h5>
+        
+          <h5 class="modal-title">Registro G. administrtivos, tipo de moneda, tiempo</h5>
+  
+      
           <!--button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button-->
       </div>
+      <div>
+          <h6  class="mt-1 ml-3">Este formulario contiene campos requeridos ( <span>*</span> )</h6>
+       </div>
       <div class="modal-body">
         <form #f1="ngForm" id="RegisterFormG">
           <div class="form-group">
