@@ -5,6 +5,7 @@ declare let alertify: any;
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import {IActivitys} from './activitys';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-root',
@@ -21,10 +22,15 @@ export class AppComponent  implements OnInit {
   public coinType = 'RD$';
   public timeType =  'Dias';
   prerrequisito: any;
-  seeTables = true; // <==== Cambiar valor a false luego
+  seeTables = false; // <==== Cambiar valor a false luego
   btndDisabled  = true;
-  calcularDuracionNormal: any = 0;
-  calD = [];
+  // calcularDuracionNormal: any = 0;
+ // calD = [];
+  criticalRoute = [];
+  totalD: number;
+  registeredPrerequisites = [['A'], ['A'], ['B', 'C'], ['D']];
+  groupedActivities = [];
+
 
 // onbjeto para las actividades
   activitys =  {
@@ -51,7 +57,7 @@ export class AppComponent  implements OnInit {
 
 // arreglo para almacenar todos los objetos creados
   pertDb = [
-    {
+    /*{
       name: 'A',
       prerequisites: ['-'],
       nA: 1,
@@ -140,15 +146,15 @@ export class AppComponent  implements OnInit {
       vTR: 0.10,
       amountN: 2800000,
       amountR: 85000
-    }
+    }*/
   ];
 
 
   ngOnInit() {
 
    // this.toggleModalRegister();
-    // this.toggleModalGastAdmin();
-   // this.setObject();
+     this.toggleModalGastAdmin();
+     this.setObject();
   }
 
   setObject() { // => funcion resetear el objeto y limpiar el formulario
@@ -250,6 +256,7 @@ export class AppComponent  implements OnInit {
   // valida si la actividad que se registra existe en pertDB
   authActivity() {
     let valid = true;
+    // tslint:disable-next-line:no-shadowed-variable
     this.pertDb.forEach(element => {
 
       if (element.name === this.activitys.name ) {
@@ -273,6 +280,7 @@ export class AppComponent  implements OnInit {
     if (valid) {
       this.addPertDb();
       this.fillActivityArr();
+      this.registeredPrerequisites.push(this.activitys.prerequisites);
       if (this.activitys.prerequisites.length === 0 ) {
         this.activitys.prerequisites[0] = '-';
       }
@@ -298,20 +306,82 @@ export class AppComponent  implements OnInit {
       this.seeTables = true;
       this.btndDisabled = false;
     }
-
+    this.totalD = null;
+    this.duration();
     console.log(this.pertDb);
     // console.log(this.Duration());
 
   }
 
+  foundMin(i1) {
+     // tslint:disable-next-line:prefer-const
+     let arr = [];
+     let found;
+     for (const iterator of this.registeredPrerequisites[i1]) {
+       found = this.pertDb.find(e => e.name === iterator);
+       arr.push(found);
+     }
+
+   // tslint:disable-next-line:prefer-for-of
+     for (let index = 0; index < arr.length; index++) {
+       if (arr[index].tN <  arr[index + 1].tN ) {
+        // console.log(arr[index].tN);
+         return arr[index].tN;
+       } else {
+         // console.log(arr[index + 1].tN);
+         return arr[index + 1].tN;
+       }
+    }
+
+  }
+
+  foundTime(min) {
+    // console.log(i1);
+    let sumTime = 0;
+
+    // tslint:disable-next-line:no-shadowed-variable
+    this.pertDb.forEach((element) => {
+      // tslint:disable-next-line:no-conditional-assignment
+      if (element.tN !== min) {
+        // console.log(element.tN);
+        sumTime = sumTime + element.tN;
+      }
+
+    });
+    return sumTime;
+    // found = this.pertDb.find(e => e.name === this.registeredPrerequisites[i1][0]);
+    // console.log(found.tN);
+  }
+
   duration() {
-    for (const i of this.pertDb) {
+
+    /*for (const i of this.pertDb) {
       for (const i1 of this.pertDb) {
         if (i1.prerequisites.indexOf(i.name) >= 0) {
           console.log( i1.name , 'prerrq :', i.name);
         }
+
        // console.log( i1.name , 'prerrq :', i.name , ' ', i1.prerequisites.indexOf(i.name));
       }
+    }*/
+    // console.log(this.registeredPrerequisites[2][0]);
+    let i1 = 0;
+    let min = 0;
+    // let sumDuration = 0;
+    // let v = 0;
+    for (const i of this.registeredPrerequisites) {
+
+      // tslint:disable-next-line:prefer-const
+      if (this.registeredPrerequisites[i1].length > 1) {
+        // console.log( this.foundBigger(i1));
+        min = this.foundMin(i1);
+      } else {
+        // console.log(this.foundTime(i1));
+        // this.foundTime(bigger);
+      }
+      i1 += 1;
     }
+
+    this.totalD = this.foundTime(min);
   }
 }

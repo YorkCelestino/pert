@@ -2,131 +2,131 @@
 <!--button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#RegisterData" (click)="toggleModal()">
         Launch
       </button-->
-<div *ngIf="seeTables"> 
-<br>
-  <div class="container">
+<div *ngIf="seeTables">
+    <br>
+    <div class="container">
 
-    <button type="button" name="" id="" class="btn btn-primary btn-lg mb-3 " data-toggle="modal" data-target="#RegisterData" (click)="toggleModalRegister()"> <fa-icon [icon]="faPlusCircle"></fa-icon>  Registrar Datos</button>
-    <div class="alert alert-primary" role="alert">
-      <h5 >Gastos Administrativos= {{coinType}} {{administrativeExpence}}/{{timeType}}</h5>
+        <button type="button" name="" id="" class="btn btn-primary btn-lg mb-3 " data-toggle="modal" data-target="#RegisterData" (click)="toggleModalRegister()"> <fa-icon [icon]="faPlusCircle"></fa-icon>  Registrar Datos</button>
+        <div class="alert alert-primary" role="alert">
+            <h5>Gastos Administrativos= {{coinType}} {{administrativeExpence}}/{{timeType}}</h5>
+        </div>
+
     </div>
-    
-</div>
-<!--normal-->
-<h2 class="text-center">Normal</h2>
-<div class="mt-4 ml-2 mr-2">
+    <!--normal-->
+    <h2 class="text-center">Normal</h2>
+    <div class="mt-4 ml-2 mr-2">
         <!--Tabla de contenido-->
         <table class="table">
             <thead class="thead-dark">
-              <tr>
-                <th scope="row">ACTIVIDAD</th>
-                <th scope="row">PRERREQ</th>
-                <th scope="row">DURACION-{{timeType}}-
-                  <tr>
-                    <th>A</th>
-                    <th>M</th>
-                    <th>B</th>
-                  </tr>
-                </th>
-                <th scope="row">COSTO {{coinType}}/-{{timeType}}-</th>
-              
-              
-                <th scope="row">Te(N) -{{timeType}}-</th>
-             
-                <th scope="row">VTe(N) -{{timeType}}-</th>
-           
-                <th scope="row">IMPORTE</th>
-              </tr>
+                <tr>
+                    <th scope="row">ACTIVIDAD</th>
+                    <th scope="row">PRERREQ</th>
+                    <th scope="row">DURACION-{{timeType}}-
+                        <tr>
+                            <th>A</th>
+                            <th>M</th>
+                            <th>B</th>
+                        </tr>
+                    </th>
+                    <th scope="row">COSTO {{coinType}}/-{{timeType}}-</th>
+
+
+                    <th scope="row">Te(N) -{{timeType}}-</th>
+
+                    <th scope="row">VTe(N) -{{timeType}}-</th>
+
+                    <th scope="row">IMPORTE</th>
+                </tr>
             </thead>
             <tbody>
 
-               
-              <tr *ngFor="let activity of pertDb">
-                <th scope="row">{{activity.name}}</th>
-                <td>{{activity.prerequisites}}</td>
-                <td>
-                  <tr>
-                    <td>{{activity.nA}}</td>
-                    <td>{{activity.nM}}</td>
-                    <td>{{activity.nB}}</td>
-                  </tr>
-                </td>
-                <td>{{activity.nCost}}</td>
-                <td>{{activity.tN |  number: '1.0-1'}}</td>
-                <td>{{activity.vTN |  number: '1.0-2'}}</td> 
-                <td>{{activity.amountN | number: '1.0-2'}}</td>
-                
-              </tr>
 
-              
+                <tr *ngFor="let activity of pertDb">
+                    <th scope="row">{{activity.name}}</th>
+                    <td>{{activity.prerequisites}}</td>
+                    <td>
+                        <tr>
+                            <td>{{activity.nA}}</td>
+                            <td>{{activity.nM}}</td>
+                            <td>{{activity.nB}}</td>
+                        </tr>
+                    </td>
+                    <td>{{activity.nCost}}</td>
+                    <td>{{activity.tN | number: '1.0-1'}}</td>
+                    <td>{{activity.vTN | number: '1.0-2'}}</td>
+                    <td>{{activity.amountN | number: '1.0-2'}}</td>
+
+                </tr>
+
+
             </tbody>
-          </table>
-          <button (click)="duration()">Pru</button>
-          <div class="alert alert-primary" role="alert">
-            <h5>Duracion Total: {{calcularDuracionNormal | number: '1.0-1'}}</h5>
+        </table>
+        <!--button (click)="duration()">Pru</button-->
+        <div class="alert alert-primary" role="alert">
+            <h5>Duracion Total: {{ totalD| number: '1.0-1'}}/{{timeType}}</h5>
             <h5>Ruta Critica:</h5>
             <h5>Costo Total: {{coinType}}</h5>
-          </div>
-     </div>
-
-<br>
-<!--DT, STe RC CT -->
-    
-<!--Reducido-->
-<h2 class="text-center mt-5">Reducido</h2>
-<div class="mt-4 ml-2 mr-2">
-  <!--Tabla de contenido-->
-  <table class="table">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="row">ACTIVIDAD</th>
-          <th scope="row">PRERREQ</th>
-          <th scope="row">DURACION-{{timeType}}-
-            <tr>
-              <th>A</th>
-              <th>M</th>
-              <th>B</th>
-            </tr>
-          </th>
-          <th scope="row">COSTO {{coinType}}/-{{timeType}}-</th>
-       
-          <th scope="row">Te(R) -{{timeType}}-</th>
-       
-          <th scope="row">VTe(R) -{{timeType}}-</th>
-     
-          <th scope="row">IMPORTE</th>
-        </tr>
-      </thead>
-      <tbody>
-
-         
-        <tr *ngFor="let activity of pertDb">
-          <th scope="row">{{activity.name}}</th>
-          <td>{{activity.prerequisites}}</td>
-          <td>
-            <tr>
-              <td>{{activity.rA}}</td>
-              <td>{{activity.rM}}</td>
-              <td>{{activity.rB}}</td>
-            </tr>
-          </td>
-          <td>{{activity.rCost}}</td>
-          <td>{{activity.tR | number: '1.0-1'}}</td>
-          <td>{{activity.vTR |  number: '1.0-2'}}</td> 
-          <td>{{activity.amountR | number: '1.0-2'}}</td>
-          
-        </tr> 
-
-        
-      </tbody>
-    </table>
-    
-    <div class="alert alert-primary" role="alert">
-      <h5>Duracion Total:</h5>
-      <h5>Ruta Critica:</h5>
-      <h5>Costo Total: {{coinType}}</h5>
+        </div>
     </div>
-</div>
+
+    <br>
+    <!--DT, STe RC CT -->
+
+    <!--Reducido-->
+    <h2 class="text-center mt-5">Reducido</h2>
+    <div class="mt-4 ml-2 mr-2">
+        <!--Tabla de contenido-->
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="row">ACTIVIDAD</th>
+                    <th scope="row">PRERREQ</th>
+                    <th scope="row">DURACION-{{timeType}}-
+                        <tr>
+                            <th>A</th>
+                            <th>M</th>
+                            <th>B</th>
+                        </tr>
+                    </th>
+                    <th scope="row">COSTO {{coinType}}/-{{timeType}}-</th>
+
+                    <th scope="row">Te(R) -{{timeType}}-</th>
+
+                    <th scope="row">VTe(R) -{{timeType}}-</th>
+
+                    <th scope="row">IMPORTE</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                <tr *ngFor="let activity of pertDb">
+                    <th scope="row">{{activity.name}}</th>
+                    <td>{{activity.prerequisites}}</td>
+                    <td>
+                        <tr>
+                            <td>{{activity.rA}}</td>
+                            <td>{{activity.rM}}</td>
+                            <td>{{activity.rB}}</td>
+                        </tr>
+                    </td>
+                    <td>{{activity.rCost}}</td>
+                    <td>{{activity.tR | number: '1.0-1'}}</td>
+                    <td>{{activity.vTR | number: '1.0-2'}}</td>
+                    <td>{{activity.amountR | number: '1.0-2'}}</td>
+
+                </tr>
+
+
+            </tbody>
+        </table>
+
+        <div class="alert alert-primary" role="alert">
+            <h5>Duracion Total:</h5>
+            <h5>Ruta Critica:</h5>
+            <h5>Costo Total: {{coinType}}</h5>
+        </div>
+    </div>
 
 </div>
 
@@ -136,96 +136,96 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Registrar Actividad # {{pertDb.length + 1}}</h5>
-                    <!--button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <!--button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button-->
             </div>
             <div>
-                <h6  class="mt-1 ml-3">Este formulario contiene campos requeridos ( <span>*</span> )</h6>
-             </div>
+                <h6 class="mt-1 ml-3">Este formulario contiene campos requeridos ( <span>*</span> )</h6>
+            </div>
             <div class="modal-body">
                 <form #f="ngForm" id="RegisterForm" (ngSubmit)="register()">
-                  <div class="form-row">
-                    <div class="col">
-                      <label for="activity">Actividad <span>*</span></label>
-                      <input type="text" class="form-control" placeholder="Actividad" id="activity" name="name" [(ngModel)]="activitys.name" required>
-                    </div>
-                    <div class=" col form-group">
-                        <label for="listActivity">Prerrequisito</label>
-                        <select class="form-control" id="listActivity" name="pre1" id="pre1" [(ngModel)]="prerrequisito">
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="activity">Actividad <span>*</span></label>
+                            <input type="text" class="form-control" placeholder="Actividad" id="activity" name="name" [(ngModel)]="activitys.name" required>
+                        </div>
+                        <div class=" col form-group">
+                            <label for="listActivity">Prerrequisito</label>
+                            <select class="form-control" id="listActivity" name="pre1" id="pre1" [(ngModel)]="prerrequisito">
                           <option *ngFor='let pre of activityArr' [value]="pre">{{pre}}</option>
                           
                         </select>
-                        
-                    </div>
-                    <div class="col">
-                      <label for="">R. pre.</label>
-                        <button type="button" class="btn btn-primary btn-circle" (click)=" addPrerreq()"><fa-icon [icon]="faPlusCircle"></fa-icon>
+
+                        </div>
+                        <div class="col">
+                            <label for="">R. pre.</label>
+                            <button type="button" class="btn btn-primary btn-circle" (click)=" addPrerreq()"><fa-icon [icon]="faPlusCircle"></fa-icon>
                         </button>
+                        </div>
+
                     </div>
-                   
-                  </div>
-                  <div class="form-row mt-3">
+                    <div class="form-row mt-3">
 
-                    <div class="col">
-                      <label for="DuracionNormalA">Duracion Normal (A) <span>*</span></label>
-                      <input type="number" class="form-control" placeholder="Duracion Normal (A)" name="nA" [(ngModel)]="activitys.nA" required>
-                    </div>
+                        <div class="col">
+                            <label for="DuracionNormalA">Duracion Normal (A) <span>*</span></label>
+                            <input type="number" class="form-control" placeholder="Duracion Normal (A)" name="nA" [(ngModel)]="activitys.nA" required>
+                        </div>
 
-                    <div class="col">
-                      <label for="DuracionNormalM">Duracion Normal (M) <span>*</span></label>
-                      <input type="number" class="form-control" placeholder="Duracion Normal (M)" name="nM" [(ngModel)]="activitys.nM" required>
-                    </div>
+                        <div class="col">
+                            <label for="DuracionNormalM">Duracion Normal (M) <span>*</span></label>
+                            <input type="number" class="form-control" placeholder="Duracion Normal (M)" name="nM" [(ngModel)]="activitys.nM" required>
+                        </div>
 
-                    <div class="col">
-                      <label for="DuracionNormalB">Duracion Normal (B) <span>*</span></label>
-                      <input type="number" class="form-control" placeholder="Duracion Normal (B)" name="nB" [(ngModel)]="activitys.nB" required>
-                    </div>
-                  </div>
-
-                  <div class="form-row mt-3">
-
-                    <div class="col">
-                      <label for="CostoNormal">Costo Normal <span>*</span></label>
-                      <input type="number" class="form-control" placeholder="Costo Normal" name="nA" [(ngModel)]="activitys.nCost" required>
-                    </div>
-                  </div>
-                  
-                  <div class="form-row mt-3">
-
-                    <div class="col">
-                      <label for="DuracionReducidaA">Duracion Reducida(A) <span>*</span></label>
-                      <input type="number" class="form-control" placeholder="Duracion Reducida (A)" name="rA" [(ngModel)]="activitys.rA" required>
+                        <div class="col">
+                            <label for="DuracionNormalB">Duracion Normal (B) <span>*</span></label>
+                            <input type="number" class="form-control" placeholder="Duracion Normal (B)" name="nB" [(ngModel)]="activitys.nB" required>
+                        </div>
                     </div>
 
-                    <div class="col">
-                      <label for="Duracion ReducidaM">Duracion Reducida(M) <span>*</span></label>
-                      <input type="number" class="form-control" placeholder="Duracion Reducida (M)" name="rM" [(ngModel)]="activitys.rM" required>
+                    <div class="form-row mt-3">
+
+                        <div class="col">
+                            <label for="CostoNormal">Costo Normal <span>*</span></label>
+                            <input type="number" class="form-control" placeholder="Costo Normal" name="nA" [(ngModel)]="activitys.nCost" required>
+                        </div>
                     </div>
 
-                    <div class="col">
-                      <label for="Duracion Reducida (B)">Duracion Reducida(B) <span>*</span></label>
-                      <input type="number" class="form-control" placeholder="Duracion Reducida (B)" name="rB" [(ngModel)]="activitys.rB" required>
+                    <div class="form-row mt-3">
+
+                        <div class="col">
+                            <label for="DuracionReducidaA">Duracion Reducida(A) <span>*</span></label>
+                            <input type="number" class="form-control" placeholder="Duracion Reducida (A)" name="rA" [(ngModel)]="activitys.rA" required>
+                        </div>
+
+                        <div class="col">
+                            <label for="Duracion ReducidaM">Duracion Reducida(M) <span>*</span></label>
+                            <input type="number" class="form-control" placeholder="Duracion Reducida (M)" name="rM" [(ngModel)]="activitys.rM" required>
+                        </div>
+
+                        <div class="col">
+                            <label for="Duracion Reducida (B)">Duracion Reducida(B) <span>*</span></label>
+                            <input type="number" class="form-control" placeholder="Duracion Reducida (B)" name="rB" [(ngModel)]="activitys.rB" required>
+                        </div>
+
                     </div>
 
-                 </div>
-                 
-                 <div class="form-row mt-3">
-                   <div class="col">
-                      <label for="CostoReducido">Costo Reducido <span>*</span></label>
-                      <input type="number" class="form-control" placeholder="Costo Reducido" name="rCost" [(ngModel)]="activitys.rCost" required>
+                    <div class="form-row mt-3">
+                        <div class="col">
+                            <label for="CostoReducido">Costo Reducido <span>*</span></label>
+                            <input type="number" class="form-control" placeholder="Costo Reducido" name="rCost" [(ngModel)]="activitys.rCost" required>
+                        </div>
                     </div>
-                  </div>
- 
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal" [disabled]="btndDisabled">Cancelar</button>
-                      <button  type="submit" class="btn btn-primary" [disabled]="f.invalid" >Guardar</button>
-                  </div>
-              
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" [disabled]="btndDisabled">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Guardar</button>
+                    </div>
+
                 </form>
-  
+
             </div>
-            
+
         </div>
     </div>
 </div>
@@ -237,51 +237,51 @@
 
 <!-- Modal registro gastos administrativos, tipo de moneda,  tiempo =>(meces, años, dias)<==-->
 <div class="modal fade" id="gAdmin" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        
-          <h5 class="modal-title">Registro G. administrtivos, tipo de moneda, tiempo</h5>
-  
-      
-          <!--button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h5 class="modal-title">Registro G. administrtivos, tipo de moneda, tiempo</h5>
+
+
+                <!--button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button-->
-      </div>
-      <div>
-          <h6  class="mt-1 ml-3">Este formulario contiene campos requeridos ( <span>*</span> )</h6>
-       </div>
-      <div class="modal-body">
-        <form #f1="ngForm" id="RegisterFormG">
-          <div class="form-group">
-            <label for="">Costo Gastos administrativos <span>*</span></label>
-            <input type="text" class="form-control" name="administrativeExpence"  [(ngModel)]="administrativeExpence" id="" aria-describedby="helpId" placeholder="Gastos administrativos" required>
-          </div>
+            </div>
+            <div>
+                <h6 class="mt-1 ml-3">Este formulario contiene campos requeridos ( <span>*</span> )</h6>
+            </div>
+            <div class="modal-body">
+                <form #f1="ngForm" id="RegisterFormG">
+                    <div class="form-group">
+                        <label for="">Costo Gastos administrativos <span>*</span></label>
+                        <input type="text" class="form-control" name="administrativeExpence" [(ngModel)]="administrativeExpence" id="" aria-describedby="helpId" placeholder="Gastos administrativos" required>
+                    </div>
 
-          <div class="form-group">
-            <label for="coinType">Tipo de moneda</label>
-            <select class="form-control" name="coinType" id="coinType" [(ngModel)]="coinType" >
+                    <div class="form-group">
+                        <label for="coinType">Tipo de moneda</label>
+                        <select class="form-control" name="coinType" id="coinType" [(ngModel)]="coinType">
               <option value='RD$'>RD$</option>
               <option value='US$'>US$</option>
               <option value='€'>€</option> 
             </select>
-          </div>
-         
-          <div class="form-group">
-            <label for="timeType">Tiempo de actividad</label>
-            <select class="form-control" name="timeType" id="timeType" [(ngModel)]="timeType">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timeType">Tiempo de actividad</label>
+                        <select class="form-control" name="timeType" id="timeType" [(ngModel)]="timeType">
               <option value='Dias'>Dias</option>
               <option value='Meses'>Meses</option>
               <option value='Años'>Años</option>
             </select>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal"  (click)="toggleModalRegister()" [disabled]="f1.invalid" >Guardar</button>
-          </div>
-        </form>
-      </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="toggleModalRegister()" [disabled]="f1.invalid">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <!--button (click)="addPertDb()">alert</button>
