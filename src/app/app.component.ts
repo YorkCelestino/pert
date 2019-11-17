@@ -21,6 +21,10 @@ export class AppComponent  implements OnInit {
   public coinType = 'RD$';
   public timeType =  'Dias';
   prerrequisito: any;
+  seeTables = true; // <==== Cambiar valor a false luego
+  btndDisabled  = true;
+  calcularDuracionNormal: any = 0;
+  calD = [];
 
 // onbjeto para las actividades
   activitys =  {
@@ -38,20 +42,112 @@ export class AppComponent  implements OnInit {
     tR: null,
     vTN: null,
     vTR: null,
-    amount: null
+    amountN: null,
+    amountR: null
   };
 
 
   activityArr = [];
 
 // arreglo para almacenar todos los objetos creados
-  pertDb = [];
+  pertDb = [
+    {
+      name: 'A',
+      prerequisites: ['-'],
+      nA: 1,
+      nM: 2,
+      nB: 3,
+      nCost: 100000,
+      rA: 0.5,
+      rM: 1,
+      rB: 2,
+      rCost: 25000,
+      tN: 2,
+      tR: 1.08,
+      vTN: 0.10,
+      vTR: 0.06,
+      amountN: 200000,
+      amountR: 235000
+    },
+    {
+      name: 'B',
+      prerequisites: ['A'],
+      nA: 4,
+      nM: 5,
+      nB: 6,
+      nCost: 1000000,
+      rA: 3,
+      rM: 4,
+      rB: 5,
+      rCost: 90000,
+      tN: 5,
+      tR: 4,
+      vTN: 0.10,
+      vTR: 0.10,
+      amountN: 5000000,
+      amountR: 90000
+    },
+    {
+      name: 'C',
+      prerequisites: ['A'],
+      nA: 2,
+      nM: 3,
+      nB: 4,
+      nCost: 500000,
+      rA: 1,
+      rM: 2,
+      rB: 3,
+      rCost: 10000,
+      tN: 3,
+      tR: 2,
+      vTN: 0.10,
+      vTR: 0.10,
+      amountN: 1500000,
+      amountR: 10000
+    },
+    {
+      name: 'D',
+      prerequisites: ['B', 'C'],
+      nA: 5,
+      nM: 6,
+      nB: 7,
+      nCost: 900000,
+      rA: 4,
+      rM: 5,
+      rB: 6,
+      rCost: 81000,
+      tN: 6,
+      tR: 5,
+      vTN: 0.10,
+      vTR: 0.10,
+      amountN: 5400000,
+      amountR: 81000
+    },
+    {
+      name: 'E',
+      prerequisites: ['D'],
+      nA: 3,
+      nM: 4,
+      nB: 5,
+      nCost: 700000,
+      rA: 2,
+      rM: 3,
+      rB: 4,
+      rCost: 85000,
+      tN: 4,
+      tR: 3,
+      vTN: 0.10,
+      vTR: 0.10,
+      amountN: 2800000,
+      amountR: 85000
+    }
+  ];
 
 
   ngOnInit() {
 
    // this.toggleModalRegister();
-    this.toggleModalGastAdmin();
+    // this.toggleModalGastAdmin();
    // this.setObject();
   }
 
@@ -71,7 +167,8 @@ export class AppComponent  implements OnInit {
       tR: null,
       vTN: null,
       vTR: null,
-      amount: null
+      amountN: null,
+      amountR: null
     };
   }
 
@@ -138,13 +235,16 @@ export class AppComponent  implements OnInit {
 
 
     // VTe(N)
-    this.activitys.vTN = 0;
+    this.activitys.vTN =  Math.pow(((this.activitys.nB - this.activitys.nA) / 6), 2);
 
     // VTe(R)
-    this.activitys.vTR = 0;
+    this.activitys.vTR = Math.pow(((this.activitys.rB - this.activitys.rA) / 6), 2);
 
-    // importe
-    this.activitys.amount = 0;
+    // importe Normal
+    this.activitys.amountN = this.activitys.tN * this.activitys.nCost;
+
+    // importe Reducido
+    this.activitys.amountR = this.activitys.tR * this.activitys.rCost;
   }
 
   // valida si la actividad que se registra existe en pertDB
@@ -163,6 +263,9 @@ export class AppComponent  implements OnInit {
     return valid; // si la actividad existe retorna falso
   }
 
+  /**
+   * registro de los datos por actividad
+   */
   register() {
 
     // tslint:disable-next-line:prefer-const
@@ -182,7 +285,8 @@ export class AppComponent  implements OnInit {
 
       $('#RegisterData').modal('hide');
 
-      return;
+      // return;
+      // this.calcularDuracionNormal = 0;
 
     } else {
 
@@ -190,12 +294,24 @@ export class AppComponent  implements OnInit {
 
     }
 
-    console.log(this.pertDb);
+    if (this.pertDb.length > 0) {
+      this.seeTables = true;
+      this.btndDisabled = false;
+    }
 
+    console.log(this.pertDb);
+    // console.log(this.Duration());
 
   }
 
-
+  duration() {
+    for (const i of this.pertDb) {
+      for (const i1 of this.pertDb) {
+        if (i1.prerequisites.indexOf(i.name) >= 0) {
+          console.log( i1.name , 'prerrq :', i.name);
+        }
+       // console.log( i1.name , 'prerrq :', i.name , ' ', i1.prerequisites.indexOf(i.name));
+      }
+    }
+  }
 }
-
-

@@ -2,9 +2,8 @@
 <!--button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#RegisterData" (click)="toggleModal()">
         Launch
       </button-->
-    
-     
-      <br>
+<div *ngIf="seeTables"> 
+<br>
   <div class="container">
 
     <button type="button" name="" id="" class="btn btn-primary btn-lg mb-3 " data-toggle="modal" data-target="#RegisterData" (click)="toggleModalRegister()"> <fa-icon [icon]="faPlusCircle"></fa-icon>  Registrar Datos</button>
@@ -13,7 +12,8 @@
     </div>
     
 </div>
-
+<!--normal-->
+<h2 class="text-center">Normal</h2>
 <div class="mt-4 ml-2 mr-2">
         <!--Tabla de contenido-->
         <table class="table">
@@ -28,19 +28,13 @@
                     <th>B</th>
                   </tr>
                 </th>
-                <th scope="row">COSTO NORMAL {{coinType}}/-{{timeType}}-</th>
-                <th scope="row">
-                  DURACION RED. -{{timeType}}-
-                  <tr>
-                      <th>A</th>
-                      <th>M</th>
-                      <th>B</th>
-                  </tr>                </th>
-                <th scope="row">REDUCCION {{coinType}}/ -{{timeType}}-</th>
+                <th scope="row">COSTO {{coinType}}/-{{timeType}}-</th>
+              
+              
                 <th scope="row">Te(N) -{{timeType}}-</th>
-                <th scope="row">Te(R) -{{timeType}}-</th>
+             
                 <th scope="row">VTe(N) -{{timeType}}-</th>
-                <th scope="row">VTe(R) -{{timeType}}-</th>
+           
                 <th scope="row">IMPORTE</th>
               </tr>
             </thead>
@@ -57,32 +51,84 @@
                     <td>{{activity.nB}}</td>
                   </tr>
                 </td>
-               
                 <td>{{activity.nCost}}</td>
-                <td>
-                    <tr>
-                        <td>{{activity.rA}}</td>
-                        <td>{{activity.rM}}</td>
-                        <td>{{activity.rB}}</td>
-                      </tr>
-                </td>
-                <td>{{activity.rCost}}</td>
-                <td>{{activity.tN}}</td>
-                <td>{{activity.tR}}</td>
-                <td>{{activity.vTN}}</td>
-                <td>{{activity.vTR}}</td>
-                <td>{{activity.amount}}</td>
+                <td>{{activity.tN |  number: '1.0-1'}}</td>
+                <td>{{activity.vTN |  number: '1.0-2'}}</td> 
+                <td>{{activity.amountN | number: '1.0-2'}}</td>
                 
               </tr>
 
               
             </tbody>
           </table>
-          
-          
+          <button (click)="duration()">Pru</button>
+          <div class="alert alert-primary" role="alert">
+            <h5>Duracion Total: {{calcularDuracionNormal | number: '1.0-1'}}</h5>
+            <h5>Ruta Critica:</h5>
+            <h5>Costo Total: {{coinType}}</h5>
+          </div>
      </div>
-    
 
+<br>
+<!--DT, STe RC CT -->
+    
+<!--Reducido-->
+<h2 class="text-center mt-5">Reducido</h2>
+<div class="mt-4 ml-2 mr-2">
+  <!--Tabla de contenido-->
+  <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="row">ACTIVIDAD</th>
+          <th scope="row">PRERREQ</th>
+          <th scope="row">DURACION-{{timeType}}-
+            <tr>
+              <th>A</th>
+              <th>M</th>
+              <th>B</th>
+            </tr>
+          </th>
+          <th scope="row">COSTO {{coinType}}/-{{timeType}}-</th>
+       
+          <th scope="row">Te(R) -{{timeType}}-</th>
+       
+          <th scope="row">VTe(R) -{{timeType}}-</th>
+     
+          <th scope="row">IMPORTE</th>
+        </tr>
+      </thead>
+      <tbody>
+
+         
+        <tr *ngFor="let activity of pertDb">
+          <th scope="row">{{activity.name}}</th>
+          <td>{{activity.prerequisites}}</td>
+          <td>
+            <tr>
+              <td>{{activity.rA}}</td>
+              <td>{{activity.rM}}</td>
+              <td>{{activity.rB}}</td>
+            </tr>
+          </td>
+          <td>{{activity.rCost}}</td>
+          <td>{{activity.tR | number: '1.0-1'}}</td>
+          <td>{{activity.vTR |  number: '1.0-2'}}</td> 
+          <td>{{activity.amountR | number: '1.0-2'}}</td>
+          
+        </tr> 
+
+        
+      </tbody>
+    </table>
+    
+    <div class="alert alert-primary" role="alert">
+      <h5>Duracion Total:</h5>
+      <h5>Ruta Critica:</h5>
+      <h5>Costo Total: {{coinType}}</h5>
+    </div>
+</div>
+
+</div>
 
 <!-- Modal Registro de datos -->
 <div class="modal fade" id="RegisterData" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -172,7 +218,7 @@
                   </div>
  
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" [disabled]="btndDisabled">Cancelar</button>
                       <button  type="submit" class="btn btn-primary" [disabled]="f.invalid" >Guardar</button>
                   </div>
               
