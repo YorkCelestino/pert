@@ -61,16 +61,16 @@
 
             </tbody>
         </table>
+        <!--DT, STe RC CT  Normal -->
         <!--button (click)="duration()">Pru</button-->
         <div class="alert alert-primary" role="alert">
-            <h5>Duracion Total: {{ totalD| number: '1.0-1'}}/{{timeType}}</h5>
-            <h5>Ruta Critica:</h5>
-            <h5>Costo Total: {{coinType}}</h5>
+            <h5>Duracion Total: {{ totalDN | number: '1.0-1'}} ± {{totalVN | number: '1.0-1' }}{{timeType}}</h5>
+            <h5>Ruta Critica:{{criticalRoute}}</h5>
+            <h5>Costo Total: {{coinType}} {{ totalCostN | number: '1.0-1'}}</h5>
         </div>
     </div>
 
     <br>
-    <!--DT, STe RC CT -->
 
     <!--Reducido-->
     <h2 class="text-center mt-5">Reducido</h2>
@@ -99,7 +99,6 @@
             </thead>
             <tbody>
 
-
                 <tr *ngFor="let activity of pertDb">
                     <th scope="row">{{activity.name}}</th>
                     <td>{{activity.prerequisites}}</td>
@@ -122,13 +121,43 @@
         </table>
 
         <div class="alert alert-primary" role="alert">
-            <h5>Duracion Total:</h5>
-            <h5>Ruta Critica:</h5>
-            <h5>Costo Total: {{coinType}}</h5>
+            <h5>Duracion Total: {{ totalDR | number: '1.0-1'}} ± {{totalVR | number: '1.0-1' }}{{timeType}}</h5>
+            <h5>Ruta Critica:{{criticalRouteR}}</h5>
+            <h5>Costo Total: {{coinType}} {{ totalCostR | number: '1.0-1'}}</h5>
         </div>
     </div>
 
+
+    <!--Reducido End-->
+
+    <!--Conclucion-->
+    <br><br>
+    <hr>
+    <h1 class="text-center" style="color:green">Conclusiones</h1>
+    <div class="container mb-4">
+
+        <button class="btn btn-primary mb-2" (click)="conclution()">
+        <div *ngIf="seeConclutionMinus">
+            <fa-icon [icon]="faMinusCircle" class="mr-1"></fa-icon><label>Ocultar Conclusión</label>
+        </div>
+        <div *ngIf="seeConclutionPlus">
+            <fa-icon [icon]="faPlusCircle" class="mr-1"></fa-icon><label>Ver Conclusión</label> 
+        </div>
+    </button>
+
+
+        <div class="alert alert-primary" role="alert" *ngIf="seeConclutionMinus">
+            <p>Costo normal: <span>{{coinType}}</span> {{totalCostN | number: '1.0-1'}}</p>
+            <p>Costo Reducido: <span>{{coinType}}</span> {{totalCostR | number: '1.0-1'}}</p>
+            <h2>Segun los cálculos obtenidos por el <u>costo total del método normal</u> y <u>el costo total del método reducido</u></h2>
+            <h2>el método mas optimo es el <strong>{{metodo}}</strong></h2>
+        </div>
+
+    </div>
+    <hr>
 </div>
+<!--Conclucion end-->
+
 
 <!-- Modal Registro de datos -->
 <div class="modal fade" id="RegisterData" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -160,7 +189,7 @@
                         </div>
                         <div class="col">
                             <label for="">R. pre.</label>
-                            <button type="button" class="btn btn-primary btn-circle" (click)=" addPrerreq()"><fa-icon [icon]="faPlusCircle"></fa-icon>
+                            <button title="Registrar Prerrequisito" type="button" class="btn btn-primary btn-circle" (click)=" addPrerreq()"><fa-icon [icon]="faPlusCircle"></fa-icon>
                         </button>
                         </div>
 
@@ -219,7 +248,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" [disabled]="btndDisabled">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Guardar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="f.invalid" title="Guardar">Guardar</button>
                     </div>
 
                 </form>
@@ -229,11 +258,9 @@
         </div>
     </div>
 </div>
+<!-- Modal Registro de datos End. -->
 
-<!-- Button trigger modal >
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#gAdmin">
-  Launch
-</button-->
+
 
 <!-- Modal registro gastos administrativos, tipo de moneda,  tiempo =>(meces, años, dias)<==-->
 <div class="modal fade" id="gAdmin" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -255,25 +282,25 @@
                 <form #f1="ngForm" id="RegisterFormG">
                     <div class="form-group">
                         <label for="">Costo Gastos administrativos <span>*</span></label>
-                        <input type="text" class="form-control" name="administrativeExpence" [(ngModel)]="administrativeExpence" id="" aria-describedby="helpId" placeholder="Gastos administrativos" required>
+                        <input type="number" class="form-control" name="administrativeExpence" [(ngModel)]="administrativeExpence" id="" aria-describedby="helpId" placeholder="Gastos administrativos" required>
                     </div>
 
                     <div class="form-group">
                         <label for="coinType">Tipo de moneda</label>
                         <select class="form-control" name="coinType" id="coinType" [(ngModel)]="coinType">
-              <option value='RD$'>RD$</option>
-              <option value='US$'>US$</option>
-              <option value='€'>€</option> 
-            </select>
+                            <option value='RD$'>RD$</option>
+                            <option value='US$'>US$</option>
+                            <option value='€'>€</option> 
+                        </select>
                     </div>
 
                     <div class="form-group">
                         <label for="timeType">Tiempo de actividad</label>
                         <select class="form-control" name="timeType" id="timeType" [(ngModel)]="timeType">
-              <option value='Dias'>Dias</option>
-              <option value='Meses'>Meses</option>
-              <option value='Años'>Años</option>
-            </select>
+                            <option value='Dias'>Dias</option>
+                            <option value='Meses'>Meses</option>
+                            <option value='Años'>Años</option>
+                        </select>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="toggleModalRegister()" [disabled]="f1.invalid">Guardar</button>
@@ -284,6 +311,7 @@
     </div>
 </div>
 
+<!-- Modal registro gastos administrativos, tipo de moneda,  tiempo =>(meces, años, dias)<==  end.-->
 <!--button (click)="addPertDb()">alert</button>
 <button (click)="fillActivityArr()">pru</button-->
 

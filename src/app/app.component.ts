@@ -2,7 +2,7 @@ import { Component,  OnInit, ɵConsole } from '@angular/core';
 declare var jQuery: any;
 declare var $: any;
 declare let alertify: any;
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faMinusCircle} from '@fortawesome/free-solid-svg-icons';
 import {IActivitys} from './activitys';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { element } from 'protractor';
@@ -16,19 +16,31 @@ export class AppComponent  implements OnInit {
 
   constructor( ) {
   }
-  faPlusCircle = faPlusCircle; // <= icono boton agregar prerrequisito al objeto
+  seeConclutionPlus  = true;
+  seeConclutionMinus = false;
+  metodo: string;
+  /**
+   * iconos
+   */
+  faPlusCircle = faPlusCircle;
+  faMinusCircle = faMinusCircle;
 
   public administrativeExpence: number;
   public coinType = 'RD$';
   public timeType =  'Dias';
   prerrequisito: any;
-  seeTables = false; // <==== Cambiar valor a false luego
+  seeTables = false; // <== oculta las tablas si no hay datos registrados
   btndDisabled  = true;
-  // calcularDuracionNormal: any = 0;
- // calD = [];
   criticalRoute = [];
-  totalD: number;
-  registeredPrerequisites = [['A'], ['A'], ['B', 'C'], ['D']];
+  totalDN: number; // <=== para la Duracioin total
+  totalVN: number; // <=== para la Varianza total
+  totalCostN: number; // <=== para el costo total
+  sumAmauntN: number; // <=== suma imorte normal
+  criticalRouteR = []; // <=== Ruta critica Reducida
+  totalDR: number; // <=== para la Duracioin total Reducida
+  totalVR: number; // <=== para la Varianza total Reducida
+  totalCostR: number; // <=== para el costo total Reducida
+  registeredPrerequisites = [];
   groupedActivities = [];
 
 
@@ -56,98 +68,7 @@ export class AppComponent  implements OnInit {
   activityArr = [];
 
 // arreglo para almacenar todos los objetos creados
-  pertDb = [
-    /*{
-      name: 'A',
-      prerequisites: ['-'],
-      nA: 1,
-      nM: 2,
-      nB: 3,
-      nCost: 100000,
-      rA: 0.5,
-      rM: 1,
-      rB: 2,
-      rCost: 25000,
-      tN: 2,
-      tR: 1.08,
-      vTN: 0.10,
-      vTR: 0.06,
-      amountN: 200000,
-      amountR: 235000
-    },
-    {
-      name: 'B',
-      prerequisites: ['A'],
-      nA: 4,
-      nM: 5,
-      nB: 6,
-      nCost: 1000000,
-      rA: 3,
-      rM: 4,
-      rB: 5,
-      rCost: 90000,
-      tN: 5,
-      tR: 4,
-      vTN: 0.10,
-      vTR: 0.10,
-      amountN: 5000000,
-      amountR: 90000
-    },
-    {
-      name: 'C',
-      prerequisites: ['A'],
-      nA: 2,
-      nM: 3,
-      nB: 4,
-      nCost: 500000,
-      rA: 1,
-      rM: 2,
-      rB: 3,
-      rCost: 10000,
-      tN: 3,
-      tR: 2,
-      vTN: 0.10,
-      vTR: 0.10,
-      amountN: 1500000,
-      amountR: 10000
-    },
-    {
-      name: 'D',
-      prerequisites: ['B', 'C'],
-      nA: 5,
-      nM: 6,
-      nB: 7,
-      nCost: 900000,
-      rA: 4,
-      rM: 5,
-      rB: 6,
-      rCost: 81000,
-      tN: 6,
-      tR: 5,
-      vTN: 0.10,
-      vTR: 0.10,
-      amountN: 5400000,
-      amountR: 81000
-    },
-    {
-      name: 'E',
-      prerequisites: ['D'],
-      nA: 3,
-      nM: 4,
-      nB: 5,
-      nCost: 700000,
-      rA: 2,
-      rM: 3,
-      rB: 4,
-      rCost: 85000,
-      tN: 4,
-      tR: 3,
-      vTN: 0.10,
-      vTR: 0.10,
-      amountN: 2800000,
-      amountR: 85000
-    }*/
-  ];
+  pertDb = [];
 
 
   ngOnInit() {
@@ -306,13 +227,22 @@ export class AppComponent  implements OnInit {
       this.seeTables = true;
       this.btndDisabled = false;
     }
-    this.totalD = null;
-    this.duration();
-    console.log(this.pertDb);
-    // console.log(this.Duration());
+    this.totalDN = null;
+    this.totalVN = null;
+    this.duration(); // <== normal
+    this.tCostN(); // <== Normal
+
+    this.totalDR = null;
+    this.durationR(); // <== Reducido
+    this.tCostR();
+    // console.log(this.pertDb);
+
 
   }
 
+  /**
+   * normal
+   */
   foundMin(i1) {
      // tslint:disable-next-line:prefer-const
      let arr = [];
@@ -334,25 +264,109 @@ export class AppComponent  implements OnInit {
     }
 
   }
+  /**
+   * Reducido
+   */
+  foundMinR(i1) {
+     // tslint:disable-next-line:prefer-const
+     let arr = [];
+     let found;
+     for (const iterator of this.registeredPrerequisites[i1]) {
+       found = this.pertDb.find(e => e.name === iterator);
+       arr.push(found);
+     }
 
+   // tslint:disable-next-line:prefer-for-of
+     for (let index = 0; index < arr.length; index++) {
+       if (arr[index].tR <  arr[index + 1].tR ) {
+
+         return arr[index].tR;
+
+       } else {
+
+         return arr[index + 1].tR;
+
+       }
+    }
+
+  }
+  /**
+   * Normal
+   */
   foundTime(min) {
     // console.log(i1);
     let sumTime = 0;
+    let sumVariance = 0;
 
-    // tslint:disable-next-line:no-shadowed-variable
-    this.pertDb.forEach((element) => {
+    this.pertDb.forEach((elementTime) => {
       // tslint:disable-next-line:no-conditional-assignment
-      if (element.tN !== min) {
+      if (elementTime.tN !== min) {
         // console.log(element.tN);
-        sumTime = sumTime + element.tN;
+        sumTime = sumTime + elementTime.tN;
+        sumVariance = sumVariance + elementTime.vTN;
       }
 
     });
-    return sumTime;
+    return [sumTime, sumVariance];
     // found = this.pertDb.find(e => e.name === this.registeredPrerequisites[i1][0]);
     // console.log(found.tN);
   }
 
+ /**
+  * Reducido
+  */
+  foundTimeR(min) {
+    // console.log(i1);
+    let sumTime = 0;
+    let sumVariance = 0;
+
+    this.pertDb.forEach((elementTime) => {
+      // tslint:disable-next-line:no-conditional-assignment
+      if (elementTime.tR !== min) {
+        sumTime = sumTime + elementTime.tR;
+        sumVariance = sumVariance + elementTime.vTR;
+      }
+
+    });
+    return [sumTime, sumVariance];
+  }
+
+  /**
+   * Normal
+   */
+  foundCriticalN(min) {
+   const criticalN = [];
+
+   this.pertDb.forEach((elementCritical) => {
+      // tslint:disable-next-line:no-conditional-assignment
+      if (elementCritical.tN !== min) {
+        // console.log(element.tN);
+        criticalN.push(elementCritical.name);
+      }
+    });
+   return criticalN;
+
+  }
+
+  /**
+   * Reducida
+   */
+  foundCriticalR(min) {
+   const criticalR = [];
+
+   this.pertDb.forEach((elementCritical) => {
+      // tslint:disable-next-line:no-conditional-assignment
+      if (elementCritical.tR !== min) {
+        // console.log(element.tN);
+        criticalR.push(elementCritical.name);
+      }
+    });
+   return criticalR;
+
+  }
+/**
+ * Duracion, Varianza, Ruta critica Normal
+ */
   duration() {
 
     /*for (const i of this.pertDb) {
@@ -381,7 +395,80 @@ export class AppComponent  implements OnInit {
       }
       i1 += 1;
     }
+    // tslint:disable-next-line:prefer-const
+    let totalDArr = this.foundTime(min);
+    this.totalDN = totalDArr[0];
+    this.totalVN = totalDArr[1];
+    this.criticalRoute = this.foundCriticalN(min);
+  }
 
-    this.totalD = this.foundTime(min);
+  /**
+   * Duracion, Varianza, Ruta critica reducida
+   */
+  durationR() {
+
+    let i1 = 0;
+    let min = 0;
+    for (const i of this.registeredPrerequisites) {
+
+      // tslint:disable-next-line:prefer-const
+      if (this.registeredPrerequisites[i1].length > 1) {
+        min = this.foundMinR(i1);
+      }
+      i1 += 1;
+    }
+    // tslint:disable-next-line:prefer-const
+    let totalDArr = this.foundTimeR(min);
+    this.totalDR = totalDArr[0];
+    this.totalVR = totalDArr[1];
+    this.criticalRouteR = this.foundCriticalR(min);
+  }
+/**
+ * Costo total Normal
+ */
+  tCostN() {
+    let sumTCostN = 0;
+    this.pertDb.forEach((elementTCostN) => {
+      sumTCostN = sumTCostN + elementTCostN.amountN;
+      this.sumAmauntN = sumTCostN + elementTCostN.amountN;
+    });
+    this.totalCostN = sumTCostN + (this.administrativeExpence * this.totalDN);
+    sumTCostN = 0;
+    // console.log(this.totalCostN);
+
+  }
+/**
+ * Costo total Reducido
+ */
+  tCostR() {
+    let sumTAmountR = 0;
+    this.pertDb.forEach((elementTCostR) => {
+      sumTAmountR = sumTAmountR + elementTCostR.amountR;
+    });
+    this.totalCostR = this.sumAmauntN + (this.administrativeExpence * this.totalDR) + sumTAmountR ;
+    sumTAmountR = 0;
+    // console.log(this.totalCostN);
+
+  }
+  /**
+   * Concluciones
+   */
+  conclution() {
+    if (this.seeConclutionPlus) {
+      this.seeConclutionMinus = true;
+      this.seeConclutionPlus = false;
+    } else if (this.seeConclutionMinus) {
+      this.seeConclutionPlus = true;
+      this.seeConclutionMinus = false;
+    }
+    if (this.totalCostN === 0 && this.totalCostR === 0) {
+      return;
+    } else if (this.totalCostN > 0 && this.totalCostR > 0) {
+       if (this.totalCostN > this.totalCostR) {
+         this.metodo = 'Reducido';
+      } else if (this.totalCostR > this.totalCostN) {
+        this.metodo = 'Normal';
+       }
+    }
   }
 }
